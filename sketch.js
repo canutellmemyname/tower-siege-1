@@ -4,9 +4,9 @@ const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
 var engine, world;
-var holder,ball,ground;
-var stand1,stand2, stand3;
-var ball;
+var holder,polygon,ground;
+var stand1,stand2;
+var polygon;
 var slingShot;
 var polygon_img;
 function preload(){
@@ -20,12 +20,9 @@ function setup() {
   ground = new Ground();
   stand1 = new Stand(390,300,250,10);
   stand2 = new Stand(700,200,200,10);
-  stand3 =new Stand(700,200,200,10)
-
  
   //level one
   block1 = new Block(300,275,30,40);
-  console.log(block1);
   block2 = new Block(330,275,30,40);
   block3 = new Block(360,275,30,40);
   block4 = new Block(390,275,30,40);
@@ -44,37 +41,40 @@ function setup() {
   block15 = new Block(420,195,30,40);
   //top
   block16 = new Block(390,155,30,40);
- // other bottom
-  p1 = new Block(700,195,30,40);
-  p2 = new Block(670,195,30,40);
-  p3 = new Block(640,195,30,40);
-  p4 = new Block(730,195,30,40);
-  p5 = new Block(760,195,30,40);
-  p6 = new Block(700,100,30,40);
-  p7 = new Block(730,100,30,40);
-  p8 = new Block(670,100,30,40);
-  p9 = new Block(700,50,30,40);
-  polygon =Bodies.circle(mouseX,mouseY,20);
-  World.add(world, polygon);
 
-  slingShot= new SlingShot(this.polygon,{x:100, y:200});
+  //set 2 for second stand
+  //level one
+  blocks1 = new Block(640,175,30,40);
+  blocks2 = new Block(670,175,30,40);
+  blocks3 = new Block(700,175,30,40);
+  blocks4 = new Block(730,175,30,40);
+  blocks5 = new Block(760,175,30,40);
+  //level two
+  blocks6 = new Block(670,135,30,40);
+  blocks7 = new Block(700,135,30,40);
+  blocks8 = new Block(730,135,30,40);
+  //top
+  blocks9 = new Block(700,95,30,40);
+
+  //polygon holder with slings
+  polygon = Bodies.circle(50,200,20);
+  World.add(world,polygon);
   
+  slingShot = new Slingshot(this.polygon,{x:100,y:200});
 
 }
 function draw() {
   background(56,44,44); 
  
-  textSize(20);
-  fill("lightyellow");
+  //Engine.update(engine);
   
+
 
   ground.display();
   stand1.display();
-  stand3.display();
+  stand2.display();
   strokeWeight(2);
   stroke(15);
-  
-  slingShot.display();
   fill("skyblue");
   block1.display();
   block2.display();
@@ -96,22 +96,33 @@ function draw() {
   fill("grey");
   block16.display();
   fill("skyblue");
-  p1.display();
-  p2.display();
-  p3.display();
-  p4.display();
-  p5.display();
-  fill("red")
-  p6.display();
-  p7.display();
-  p8.display();
-  fill("violet");
-  p9.display();
+  blocks1.display();
+  blocks2.display();
+  blocks3.display();
+  blocks4.display();
+  blocks5.display();
+  fill("turquoise");
+  blocks6.display();
+  blocks7.display();
+  blocks8.display();
+  fill("pink")
+  blocks9.display();
+  fill("gold");
+  imageMode(CENTER)
+  image(polygon_img ,polygon.position.x,polygon.position.y,40,40);
+
+  slingShot.display();
   
 }
 function mouseDragged(){
-  Matter.Body.setPosition(this.polygon, {x: mouseX , y: mouseY});
+  Matter.Body.setPosition(this.polygon,{x:mouseX,y:mouseY});
 }
 function mouseReleased(){
-  slingshot.fly();
-} 
+  slingShot.fly();
+}
+function keyPressed(){
+//write code for extra chance of the player
+  if(keyCode === 32){
+    slingShot.attach(this.polygon);
+  }
+}
